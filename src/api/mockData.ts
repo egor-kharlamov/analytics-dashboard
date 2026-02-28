@@ -43,7 +43,7 @@ export const generateSalesData = (days: number): Promise<ISalesDataPoint[]> => {
 
                 data.push({
                     date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                    sales: Math.floor(Math.random() * 10000) + 5000, // От 5,000 до 15,000
+                    sales: Math.floor(Math.random() * 10000) + 5000,
                 });
             }
 
@@ -64,7 +64,7 @@ export const generateUsersData = (days: number): Promise<IUsersDataPoint[]> => {
 
                 data.push({
                     date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                    users: Math.floor(Math.random() * 500) + 100, // От 100 до 600
+                    users: Math.floor(Math.random() * 500) + 100,
                 });
             }
 
@@ -92,7 +92,7 @@ export const generateTransactions = (count: number): Promise<ITransaction[]> => 
 
             for (let i = 0; i < count; i++) {
                 const date = new Date();
-                date.setDate(date.getDate() - Math.floor(Math.random() * 30)); // Последние 30 дней
+                date.setDate(date.getDate() - Math.floor(Math.random() * 30));
 
                 transactions.push({
                     id: `TXN-${1000 + i}`,
@@ -102,7 +102,7 @@ export const generateTransactions = (count: number): Promise<ITransaction[]> => 
                         year: 'numeric'
                     }),
                     customer: names[Math.floor(Math.random() * names.length)],
-                    amount: Math.floor(Math.random() * 5000) + 100, // От $100 до $5,100
+                    amount: Math.floor(Math.random() * 5000) + 100,
                     status: statuses[Math.floor(Math.random() * statuses.length)],
                 });
             }

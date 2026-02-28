@@ -1,14 +1,20 @@
 import './App.css'
 import {Layout} from "./components/layout/Layout.tsx";
 import {StatsCard} from "./components/dashboard/StatsCard.tsx";
-import {useStats} from "./api/queries.ts";
+import {useSalesData, useStats, useUsersData} from "./api/queries.ts";
+import {SalesChart} from "./components/charts/SalesChart.tsx";
+import {UserChart} from "./components/charts/UserChart.tsx";
 
 function App() {
-    const { data: stats} = useStats();
     //TODO: add icons to cards
+    const { data: stats} = useStats();
+    //TODO add changeable days for below queries
+    const { data: sales } = useSalesData(30);
+    const { data: user } = useUsersData(30);
+
     return (
       <Layout>
-          <div className="grid grid-cols-4 gap-8">
+          <div className="grid grid-cols-4 gap-8 md:grid-cols-2 lg:grid-cols-4">
               <StatsCard
                   title="Revenue"
                   value={stats ? stats.revenue.toString() : ""}
@@ -30,8 +36,14 @@ function App() {
                   change={stats ? stats.conversionChange : 0}
               />
           </div>
+          <div className="mt-2">
+            <SalesChart data={sales ? sales : []} />
+          </div>
+          <div className="mt-2">
+              <UserChart data={user ? user : []}/>
+          </div>
       </Layout>
-  )
+    )
 }
 
 export default App
