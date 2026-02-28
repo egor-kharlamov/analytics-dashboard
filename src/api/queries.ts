@@ -8,16 +8,16 @@ export const useStats = () => useQuery<IStats>({
 });
 
 export const useSalesData = (days: number) => useQuery<ISalesDataPoint[]>({
-    queryKey: ['stats'],
+    queryKey: ['sales'],
     queryFn: () => generateSalesData(days)
 });
 
 export const useUsersData = (days: number) => useQuery<IUsersDataPoint[]>({
-    queryKey: ['stats'],
+    queryKey: ['users'],
     queryFn: () => generateUsersData(days)
 });
 
 export const useTransactions = (count: number) => useQuery<ITransaction[]>({
-    queryKey: ['stats'],
+    queryKey: ['transactions'],
     queryFn: () => generateTransactions(count)
 });
