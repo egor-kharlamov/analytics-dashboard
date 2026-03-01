@@ -12,7 +12,7 @@ function App() {
     //TODO add changeable days for below queries
     const { data: sales } = useSalesData(30);
     const { data: user } = useUsersData(30);
-    const { data: transactions } = useTransactions(30)
+    const { data: transactions } = useTransactions(10)
 
     return (
       <Layout>
