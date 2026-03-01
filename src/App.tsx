@@ -1,9 +1,10 @@
 import './App.css'
 import {Layout} from "./components/layout/Layout.tsx";
 import {StatsCard} from "./components/dashboard/StatsCard.tsx";
-import {useSalesData, useStats, useUsersData} from "./api/queries.ts";
+import {useSalesData, useStats, useTransactions, useUsersData} from "./api/queries.ts";
 import {SalesChart} from "./components/charts/SalesChart.tsx";
 import {UserChart} from "./components/charts/UserChart.tsx";
+import {Transactions} from "./components/dashboard/Transactions.tsx";
 
 function App() {
     //TODO: add icons to cards
@@ -11,6 +12,7 @@ function App() {
     //TODO add changeable days for below queries
     const { data: sales } = useSalesData(30);
     const { data: user } = useUsersData(30);
+    const { data: transactions } = useTransactions(30)
 
     return (
       <Layout>
@@ -41,6 +43,9 @@ function App() {
           </div>
           <div className="mt-2">
               <UserChart data={user ? user : []}/>
+          </div>
+          <div className="mt-2">
+              <Transactions data={transactions ? transactions : []}/>
           </div>
       </Layout>
     )
