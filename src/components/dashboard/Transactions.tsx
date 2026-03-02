@@ -6,9 +6,29 @@ interface ITransactionsArr {
     data: ITransaction[]
 }
 
+const statuses = [
+    {
+        id: 0,
+        name: 'All'
+    },
+    {
+        id: 1,
+        name: 'completed'
+    },
+    {
+        id: 2,
+        name: 'pending'
+    },
+    {
+        id: 3,
+        name: 'failed'
+    },
+];
+
 export const Transactions:FC<ITransactionsArr> = ({data}) => {
     const [sortedData, setSortedData] = useState<ITransaction[]>(data);
     const [sortDirection, setSortDirection] = useState("");
+    const [chooseStatus, setChooseStatus] = useState("All");
 
     const statusColor = (status: string) => {
         if (status === "completed") return  "inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 inset-ring inset-ring-green-600/20"
@@ -30,6 +50,13 @@ export const Transactions:FC<ITransactionsArr> = ({data}) => {
         setSortDirection(direction)
     }
 
+    const sortTableByStatus = (status: string) => {
+        let sortData;
+        if (status !== "All") sortData = data.filter(item => item.status === status)
+        else sortData = data
+        setSortedData(sortData)
+    }
+
     useEffect(() => {
         setSortedData(data);
     }, [data]);
@@ -37,6 +64,10 @@ export const Transactions:FC<ITransactionsArr> = ({data}) => {
     useEffect(() => {
         setSortDirection("");
     }, []);
+
+    useEffect(() => {
+        sortTableByStatus(chooseStatus)
+    }, [chooseStatus]);
 
     return (
         <div className="relative overflow-x-auto bg-neutral-primary-soft shadow-xs rounded-base border border-default">
@@ -56,7 +87,7 @@ export const Transactions:FC<ITransactionsArr> = ({data}) => {
                         Amount
                     </th>
                     <th scope="col" className="px-6 py-3 font-medium">
-                        <Dropdown />
+                        <Dropdown arrayOfStatusNames={statuses} setStatus={setChooseStatus}/>
                     </th>
                 </tr>
                 </thead>
