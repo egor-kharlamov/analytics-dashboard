@@ -16,7 +16,7 @@ export const Dropdown:FC<IDropdown> = ({arrayOfStatusNames, setStatus}) => {
     const setNewStatus = (status: IDropdownItem) => {
         setStatus(status.name);
     }
-    //TODO: add z-index for menu-button!
+
     return (
         <Menu as="div" className="relative inline-block">
             <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs inset-ring-1 inset-ring-gray-300 hover:bg-gray-50">
