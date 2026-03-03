@@ -36,17 +36,30 @@ export const Transactions:FC<ITransactionsArr> = ({data}) => {
         if (status === "failed") return  "inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 inset-ring inset-ring-red-600/10"
     }
 
-    const sortTable = () => {
+    const sortTable = (type: string) => {
         const direction = sortDirection === "asc" ? "desc" : "asc";
-        const sortedDataByDate = [...data].sort((a,b) => {
-            const dateA = new Date(a.date).getTime();
-            const dateB = new Date(b.date).getTime();
+        let sortedDataInTable: ITransaction[] = [];
+        if (type === "date") {
+            sortedDataInTable = [...sortedData].sort((a,b) => {
+                const dateA = new Date(a.date).getTime();
+                const dateB = new Date(b.date).getTime();
 
-            if (dateA > dateB) return direction === "asc" ? -1 : 1;
-            if (dateA < dateB) return direction === "asc" ? 1 : -1;
-            return 0
-        })
-        setSortedData(sortedDataByDate)
+                if (dateA > dateB) return direction === "asc" ? -1 : 1;
+                if (dateA < dateB) return direction === "asc" ? 1 : -1;
+                return 0
+            })
+        } else if (type === "amount") {
+            sortedDataInTable = [...sortedData].sort((a,b) => {
+                const aAm = new Date(a.amount);
+                const bAm = new Date(b.amount);
+
+                if (aAm > bAm) return direction === "asc" ? -1 : 1;
+                if (aAm < bAm) return direction === "asc" ? 1 : -1;
+                return 0
+            })
+        }
+
+        setSortedData(sortedDataInTable)
         setSortDirection(direction)
     }
 
@@ -77,14 +90,17 @@ export const Transactions:FC<ITransactionsArr> = ({data}) => {
                     <th scope="col" className="px-6 py-3 font-medium">
                         id
                     </th>
-                    <th onClick={sortTable} scope="col" className="px-6 py-3 font-medium hover:cursor-pointer">
+                    <th onClick={() => sortTable("date")} scope="col" className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
                         Date
                         {sortDirection !== "" ?
                             <span> {sortDirection === "asc" ? "⯅" : "⯆"}</span> : <></>
                         }
                     </th>
-                    <th scope="col" className="px-6 py-3 font-medium">
+                    <th onClick={() => sortTable("amount")} scope="col" className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
                         Amount
+                        {sortDirection !== "" ?
+                            <span> {sortDirection === "asc" ? "⯅" : "⯆"}</span> : <></>
+                        }
                     </th>
                     <th scope="col" className="px-6 py-3 font-medium">
                         <Dropdown arrayOfStatusNames={statuses} setStatus={setChooseStatus}/>
