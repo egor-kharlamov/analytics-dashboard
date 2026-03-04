@@ -1,12 +1,13 @@
-import type {FC} from "react";
+import type {FC, ReactNode} from "react";
 
 interface IStatsCard {
     title: string;
     value: string;
     change: number;
+    icon?: ReactNode;
 }
 
-export const StatsCard: FC<IStatsCard> = ({title, value, change}) => {
+export const StatsCard: FC<IStatsCard> = ({title, value, change, icon}) => {
     let bgcolor: string = ""
     let changeColor: string = ""
     const positiveNum = change >= 0;
@@ -22,8 +23,12 @@ export const StatsCard: FC<IStatsCard> = ({title, value, change}) => {
     //TODO: make skeleton-loader func
 
     return(
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center justify-between mb-4">
+        <div
+            className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
+            <div className="flex items-center justify-evenly mb-4">
+                <div className="w-5">
+                    {icon}
+                </div>
                 <p className="text-sm font-medium text-gray-600">
                     {title}
                 </p>
