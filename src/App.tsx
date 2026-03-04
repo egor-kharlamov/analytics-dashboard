@@ -5,9 +5,9 @@ import {useSalesData, useStats, useTransactions, useUsersData} from "./api/queri
 import {SalesChart} from "./components/charts/SalesChart.tsx";
 import {UserChart} from "./components/charts/UserChart.tsx";
 import {Transactions} from "./components/dashboard/Transactions.tsx";
+import { UsersIcon, QueueListIcon, DocumentCurrencyDollarIcon, PercentBadgeIcon } from "@heroicons/react/16/solid"
 
 function App() {
-    //TODO: add icons to cards
     const { data: stats} = useStats();
     //TODO add changeable days for below queries
     const { data: sales } = useSalesData(30);
@@ -21,21 +21,26 @@ function App() {
                   title="Revenue"
                   value={stats ? stats.revenue.toString() : ""}
                   change={stats ? stats.revenueChange : 0}
+                  icon={<DocumentCurrencyDollarIcon />}
               />
               <StatsCard
                   title="Users"
                   value={stats ? stats.users.toString() : ""}
                   change={stats ? stats.usersChange : 0}
+                  icon={<UsersIcon />}
+
               />
               <StatsCard
                   title="Orders"
                   value={stats ? stats.orders.toString() : ""}
                   change={stats ? stats.ordersChange : 0}
+                  icon={<QueueListIcon />}
               />
               <StatsCard
                   title="Rate"
                   value={stats ? stats.conversion.toString() : ""}
                   change={stats ? stats.conversionChange : 0}
+                  icon={<PercentBadgeIcon />}
               />
           </div>
           <div className="mt-2">
