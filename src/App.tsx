@@ -5,6 +5,8 @@ import {useSalesData, useStats, useTransactions, useUsersData} from "./api/queri
 import {SalesChart} from "./components/charts/SalesChart.tsx";
 import {UserChart} from "./components/charts/UserChart.tsx";
 import {Transactions} from "./components/dashboard/Transactions.tsx";
+import "react-day-picker/style.css";
+import {Datepicker} from "./components/ui/Datepicker.tsx";
 
 function App() {
     //TODO: add icons to cards
@@ -14,8 +16,12 @@ function App() {
     const { data: user } = useUsersData(30);
     const { data: transactions } = useTransactions(10)
 
+
     return (
       <Layout>
+          <div className="mb-2">
+            <Datepicker />
+          </div>
           <div className="grid grid-cols-4 gap-8 md:grid-cols-2 lg:grid-cols-4">
               <StatsCard
                   title="Revenue"
