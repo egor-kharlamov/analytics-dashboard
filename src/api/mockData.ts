@@ -1,4 +1,5 @@
 import type {ISalesDataPoint, IStats, ITransaction, IUsersDataPoint} from "../types";
+import type {DateRange} from "react-day-picker";
 
 export const generateStats = (): Promise<IStats> => {
     return new Promise((resolve) => {
@@ -31,15 +32,16 @@ export const generateStats = (): Promise<IStats> => {
     });
 };
 
-export const generateSalesData = (days: number): Promise<ISalesDataPoint[]> => {
+export const generateSalesData = (days: DateRange): Promise<ISalesDataPoint[]> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             const data: ISalesDataPoint[] = [];
-            const now = new Date();
 
-            for (let i = days - 1; i >= 0; i--) {
-                const date = new Date(now);
-                date.setDate(date.getDate() - i);
+            const sd = days?.from;
+            const ed = days?.to;
+
+            for (let i = sd!.getDate() - 1; i <= ed!.getDate() - 1; i++) {
+                const date = new Date(ed!.getFullYear(), ed!.getMonth(), i);
 
                 data.push({
                     date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
@@ -52,19 +54,19 @@ export const generateSalesData = (days: number): Promise<ISalesDataPoint[]> => {
     });
 };
 
-export const generateUsersData = (days: number): Promise<IUsersDataPoint[]> => {
+export const generateUsersData = (days: DateRange): Promise<IUsersDataPoint[]> => {
     return new Promise((resolve) => {
         setTimeout(() => {
             const data: IUsersDataPoint[] = [];
-            const now = new Date();
+            const sd = days?.from;
+            const ed = days?.to;
 
-            for (let i = days - 1; i >= 0; i--) {
-                const date = new Date(now);
-                date.setDate(date.getDate() - i);
+            for (let i = sd!.getDate() - 1; i <= ed!.getDate() - 1; i++) {
+                const date = new Date(ed!.getFullYear(), ed!.getMonth(), i);
 
                 data.push({
                     date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-                    users: Math.floor(Math.random() * 500) + 100,
+                    users: Math.floor(Math.random() * 10000) + 5000,
                 });
             }
 
@@ -72,6 +74,7 @@ export const generateUsersData = (days: number): Promise<IUsersDataPoint[]> => {
         }, 700);
     });
 };
+
 
 export const generateTransactions = (count: number): Promise<ITransaction[]> => {
     return new Promise((resolve) => {
