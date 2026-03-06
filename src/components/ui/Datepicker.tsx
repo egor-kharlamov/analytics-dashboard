@@ -1,7 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import {useState, useRef, useEffect, type FC, type SetStateAction, type Dispatch} from "react";
 import {DayPicker, type DateRange, getDefaultClassNames} from "react-day-picker";
 
-export const Datepicker = () => {
+interface IDatePicker {
+    setDateRange: Dispatch<SetStateAction<DateRange>>
+}
+
+export const Datepicker:FC<IDatePicker> = ({setDateRange}) => {
     const [selectedRange, setSelectedRange] = useState<DateRange>();
     const [inputValue, setInputValue] = useState<DateRange | undefined>();
     const [isOpen, setIsOpen] = useState(false);
@@ -35,8 +39,10 @@ export const Datepicker = () => {
 
     const handleSelect = (range: DateRange | undefined) => {
         const clicked:number = click;
-        setSelectedRange(range);
-        setInputValue(range);
+        if (range) {
+            setSelectedRange(range);
+            setInputValue(range);
+        }
 
         if (click == 0) {
             setClick(clicked + 1)
@@ -53,6 +59,10 @@ export const Datepicker = () => {
         document.addEventListener("keydown", handleEscape);
         return () => document.removeEventListener("keydown", handleEscape);
     }, []);
+
+    useEffect(() => {
+        if (selectedRange) setDateRange(selectedRange)
+    }, [selectedRange]);
 
     const defaultClassNames = getDefaultClassNames();
 

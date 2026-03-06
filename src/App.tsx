@@ -7,20 +7,26 @@ import {UserChart} from "./components/charts/UserChart.tsx";
 import {Transactions} from "./components/dashboard/Transactions.tsx";
 import "react-day-picker/style.css";
 import {Datepicker} from "./components/ui/Datepicker.tsx";
+import {useState} from "react";
+import type {DateRange} from "react-day-picker";
+
+const today = new Date();
+const initialDateRangeState: DateRange = {from: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1), to: new Date(today.getFullYear(), today.getMonth()+1, 0)};
 
 function App() {
+    const [dateRange, setDateRange] = useState<DateRange>(initialDateRangeState)
     //TODO: add icons to cards
     const { data: stats} = useStats();
     //TODO add changeable days for below queries
-    const { data: sales } = useSalesData(30);
-    const { data: user } = useUsersData(30);
+    const { data: sales } = useSalesData(dateRange);
+    const { data: user } = useUsersData(dateRange);
     const { data: transactions } = useTransactions(10)
 
 
     return (
       <Layout>
           <div className="mb-2">
-            <Datepicker />
+            <Datepicker setDateRange={setDateRange}/>
           </div>
           <div className="grid grid-cols-4 gap-8 md:grid-cols-2 lg:grid-cols-4">
               <StatsCard
