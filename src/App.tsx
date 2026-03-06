@@ -9,13 +9,13 @@ import "react-day-picker/style.css";
 import {Datepicker} from "./components/ui/Datepicker.tsx";
 import {useState} from "react";
 import type {DateRange} from "react-day-picker";
+import { UsersIcon, QueueListIcon, DocumentCurrencyDollarIcon, PercentBadgeIcon } from "@heroicons/react/16/solid"
 
 const today = new Date();
 const initialDateRangeState: DateRange = {from: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1), to: new Date(today.getFullYear(), today.getMonth()+1, 0)};
 
 function App() {
     const [dateRange, setDateRange] = useState<DateRange>(initialDateRangeState)
-    //TODO: add icons to cards
     const { data: stats} = useStats();
     //TODO add changeable days for below queries
     const { data: sales } = useSalesData(dateRange);
@@ -33,21 +33,26 @@ function App() {
                   title="Revenue"
                   value={stats ? stats.revenue.toString() : ""}
                   change={stats ? stats.revenueChange : 0}
+                  icon={<DocumentCurrencyDollarIcon />}
               />
               <StatsCard
                   title="Users"
                   value={stats ? stats.users.toString() : ""}
                   change={stats ? stats.usersChange : 0}
+                  icon={<UsersIcon />}
+
               />
               <StatsCard
                   title="Orders"
                   value={stats ? stats.orders.toString() : ""}
                   change={stats ? stats.ordersChange : 0}
+                  icon={<QueueListIcon />}
               />
               <StatsCard
                   title="Rate"
                   value={stats ? stats.conversion.toString() : ""}
                   change={stats ? stats.conversionChange : 0}
+                  icon={<PercentBadgeIcon />}
               />
           </div>
           <div className="mt-2">
