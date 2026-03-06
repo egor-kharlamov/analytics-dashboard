@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from "react";
 import {DayPicker, type DateRange, getDefaultClassNames} from "react-day-picker";
-import { parse, isValid } from "date-fns";
 
 export const Datepicker = () => {
     const [selectedRange, setSelectedRange] = useState<DateRange>();
-    const [inputValue, setInputValue] = useState("");
+    const [inputValue, setInputValue] = useState<DateRange | undefined>();
     const [isOpen, setIsOpen] = useState(false);
+    const [click, setClick] = useState<number>(0);
     const popoverRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -25,35 +25,48 @@ export const Datepicker = () => {
     }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(e.target.value);
-        const parsed = parse(e.target.value, "MM/dd/yyyy", new Date());
-        if (isValid(parsed)) {
-            setSelectedRange({ from: parsed, to: parsed }); // для range
-        } else {
-            setSelectedRange(undefined);
+        console.log(e.target.value)
+    };
+
+    const displayValue =
+        inputValue?.from && inputValue?.to
+            ? `${inputValue.from.toLocaleDateString()} - ${inputValue.to.toLocaleDateString()}`
+            : '';
+
+    const handleSelect = (range: DateRange | undefined) => {
+        const clicked:number = click;
+        setSelectedRange(range);
+        setInputValue(range);
+
+        if (click == 0) {
+            setClick(clicked + 1)
+        } else if (click == 1) {
+            setIsOpen(false);
+            setClick(0);
         }
     };
 
-    // const handleSelect = (range: DateRange | undefined) => {
-    //     setSelectedRange(range);
-    //     if (range?.from) {
-    //         setInputValue(format(range.from, "MM/dd/yyyy"));
-    //     }
-    //     setIsOpen(false);
-    // };
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (event.key === "Escape") setIsOpen(false);
+        };
+        document.addEventListener("keydown", handleEscape);
+        return () => document.removeEventListener("keydown", handleEscape);
+    }, []);
 
     const defaultClassNames = getDefaultClassNames();
-
 
     return (
         <div className="relative">
             <input
                 ref={inputRef}
                 type="text"
-                value={inputValue}
+                value={displayValue}
                 onChange={handleInputChange}
                 onClick={() => setIsOpen(true)}
-                placeholder="MM/dd/yyyy"
+                placeholder="Choose period"
+                className='border border-gray-300 rounded-md p-2'
+                readOnly
             />
             {isOpen && (
                 <div
@@ -63,7 +76,7 @@ export const Datepicker = () => {
                     <DayPicker
                         mode="range"
                         selected={selectedRange}
-                        onSelect={setSelectedRange}
+                        onSelect={handleSelect}
                         classNames={{
                             today: `border-amber-500`,
                             selected: `bg-amber-500 border-amber-500`,
