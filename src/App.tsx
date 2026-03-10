@@ -16,11 +16,11 @@ const initialDateRangeState: DateRange = {from: new Date(today.getFullYear(), to
 
 function App() {
     const [dateRange, setDateRange] = useState<DateRange>(initialDateRangeState)
-    const { data: stats} = useStats();
+    const { data: stats, isLoading: isLoadStats} = useStats();
     //TODO add changeable days for below queries
-    const { data: sales } = useSalesData(dateRange);
-    const { data: user } = useUsersData(dateRange);
-    const { data: transactions } = useTransactions(10)
+    const { data: sales, isLoading: isLoadSales} = useSalesData(dateRange);
+    const { data: user, isLoading: isLoadUsers} = useUsersData(dateRange);
+    const { data: transactions, isLoading: isLoadTrans } = useTransactions(10)
 
 
     return (
@@ -34,35 +34,38 @@ function App() {
                   value={stats ? stats.revenue.toString() : ""}
                   change={stats ? stats.revenueChange : 0}
                   icon={<DocumentCurrencyDollarIcon />}
+                  isLoading={isLoadStats}
               />
               <StatsCard
                   title="Users"
                   value={stats ? stats.users.toString() : ""}
                   change={stats ? stats.usersChange : 0}
                   icon={<UsersIcon />}
-
+                  isLoading={isLoadStats}
               />
               <StatsCard
                   title="Orders"
                   value={stats ? stats.orders.toString() : ""}
                   change={stats ? stats.ordersChange : 0}
                   icon={<QueueListIcon />}
+                  isLoading={isLoadStats}
               />
               <StatsCard
                   title="Rate"
                   value={stats ? stats.conversion.toString() : ""}
                   change={stats ? stats.conversionChange : 0}
                   icon={<PercentBadgeIcon />}
+                  isLoading={isLoadStats}
               />
           </div>
           <div className="mt-2">
-            <SalesChart data={sales ? sales : []} />
+            <SalesChart data={sales ? sales : []} isLoading={isLoadSales}/>
           </div>
           <div className="mt-2">
-              <UserChart data={user ? user : []}/>
+              <UserChart data={user ? user : []} isLoading={isLoadUsers}/>
           </div>
           <div className="mt-2">
-              <Transactions data={transactions ? transactions : []}/>
+              <Transactions data={transactions ? transactions : []} isLoading={isLoadTrans}/>
           </div>
       </Layout>
     )

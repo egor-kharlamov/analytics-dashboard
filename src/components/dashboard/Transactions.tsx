@@ -1,9 +1,11 @@
 import {type FC, useEffect, useState} from "react";
 import type {ITransaction} from "../../types";
 import {Dropdown} from "../ui/Dropdown.tsx";
+import {TableSkeleton} from "../skeleton/TableSkeleton.tsx";
 
 interface ITransactionsArr {
-    data: ITransaction[]
+    data: ITransaction[];
+    isLoading: boolean;
 }
 
 const statuses = [
@@ -25,7 +27,7 @@ const statuses = [
     },
 ];
 
-export const Transactions:FC<ITransactionsArr> = ({data}) => {
+export const Transactions:FC<ITransactionsArr> = ({data, isLoading}) => {
     const [sortedData, setSortedData] = useState<ITransaction[]>(data);
     const [sortDirection, setSortDirection] = useState("");
     const [chooseStatus, setChooseStatus] = useState("All");
@@ -86,13 +88,15 @@ export const Transactions:FC<ITransactionsArr> = ({data}) => {
                     <th scope="col" className="px-6 py-3 font-medium">
                         id
                     </th>
-                    <th onClick={() => sortTable("date")} scope="col" className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
+                    <th onClick={() => sortTable("date")} scope="col"
+                        className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
                         Date
                         {sortDirection !== "" ?
                             <span> {sortDirection === "asc" ? "⯅" : "⯆"}</span> : <></>
                         }
                     </th>
-                    <th onClick={() => sortTable("amount")} scope="col" className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
+                    <th onClick={() => sortTable("amount")} scope="col"
+                        className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
                         Amount
                         {sortDirection !== "" ?
                             <span> {sortDirection === "asc" ? "⯅" : "⯆"}</span> : <></>
@@ -103,27 +107,31 @@ export const Transactions:FC<ITransactionsArr> = ({data}) => {
                     </th>
                 </tr>
                 </thead>
+                {!isLoading ?
                 <tbody>
-                    {sortedData && sortedData.length > 0 ? sortedData.map(transItem =>
-                        <tr key={transItem.id} className="bg-neutral-primary border-b border-default">
-                            <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                                {transItem.id}
-                            </th>
-                            <td className="px-6 py-4">
-                                {transItem.date}
-                            </td>
-                            <td className="px-6 py-4">
-                                {transItem.amount}
-                            </td>
-                            <td className="px-6 py-4">
+                {sortedData && sortedData.length > 0 ? sortedData.map(transItem =>
+                    <tr key={transItem.id} className="bg-neutral-primary border-b border-default">
+                        <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                            {transItem.id}
+                        </th>
+                        <td className="px-6 py-4">
+                            {transItem.date}
+                        </td>
+                        <td className="px-6 py-4">
+                            {transItem.amount}
+                        </td>
+                        <td className="px-6 py-4">
                                 <span
                                     className={statusColor(transItem.status)}>
                                     {transItem.status}
                                 </span>
-                            </td>
-                        </tr>
-                    ) : <></>}
+                        </td>
+                    </tr>
+                ) : <></>}
                 </tbody>
+                    :
+                <TableSkeleton />
+                }
             </table>
         </div>
     )

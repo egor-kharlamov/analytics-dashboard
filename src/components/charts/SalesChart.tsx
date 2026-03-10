@@ -1,14 +1,17 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import type {FC} from "react";
 import type {ISalesDataPoint} from "../../types";
+import {ChartsSkeleton} from "../skeleton/ChartsSkeleton.tsx";
 
 
 interface ISalesChart {
-    data: ISalesDataPoint[]
+    data: ISalesDataPoint[],
+    isLoading: boolean
 }
 
-export const SalesChart:FC<ISalesChart> = ({data}) => {
+export const SalesChart:FC<ISalesChart> = ({data, isLoading}) => {
     return (
+        !isLoading ?
         <LineChart
             style={{ width: '100%', maxWidth: '700px', height: '100%', maxHeight: '70vh', aspectRatio: 1.618 }}
             responsive
@@ -26,5 +29,7 @@ export const SalesChart:FC<ISalesChart> = ({data}) => {
             <Tooltip />
             <Line type="monotone" dataKey="sales" stroke="#3B82F6" activeDot={{ r: 8 }} />
         </LineChart>
+            :
+        <ChartsSkeleton />
     );
 }
