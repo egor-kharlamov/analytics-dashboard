@@ -22,8 +22,6 @@ export const StatsCard: FC<IStatsCard> = ({title, value, change, icon, isLoading
         changeColor = "text-red-600"
     }
 
-    //TODO: make skeleton-loader func
-
     return (
         !isLoading ?
             <div
