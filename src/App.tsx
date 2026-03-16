@@ -10,9 +10,13 @@ import {Datepicker} from "./components/ui/Datepicker.tsx";
 import {useState} from "react";
 import type {DateRange} from "react-day-picker";
 import { UsersIcon, QueueListIcon, DocumentCurrencyDollarIcon, PercentBadgeIcon } from "@heroicons/react/16/solid"
+import {exportToCsv} from "./utils/exportToCsv.ts";
 
 const today = new Date();
-const initialDateRangeState: DateRange = {from: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1), to: new Date(today.getFullYear(), today.getMonth()+1, 0)};
+const initialDateRangeState: DateRange = {
+    from: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1),
+    to: new Date(today.getFullYear(), today.getMonth()+1, 0)
+};
 
 function App() {
     const [dateRange, setDateRange] = useState<DateRange>(initialDateRangeState)
@@ -80,8 +84,18 @@ function App() {
               </div>
           }
           {!isErrorTrans ?
-              <div className="mt-2">
-                  <Transactions data={transactions ? transactions : []} isLoading={isLoadTrans}/>
+              <div className="mt-2 flex flex-col">
+                  <div className='justify-end'>
+                      <button
+                          className="bg-gray-50 hover:bg-black-100 font-bold py-2 px-4 rounded border border-black"
+                          onClick={() => exportToCsv(transactions!, dateRange)}
+                      >
+                          Download CSV
+                      </button>
+                  </div>
+                  <div>
+                      <Transactions data={transactions ? transactions : []} isLoading={isLoadTrans}/>
+                  </div>
               </div> :
               <div className="px-4 py-3 leading-normal text-red-700 bg-red-100 rounded-lg mt-2" role="alert">
                   <p>Error loading "Transactions" data, please reload page</p>

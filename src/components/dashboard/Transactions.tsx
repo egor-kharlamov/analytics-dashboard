@@ -84,53 +84,61 @@ export const Transactions:FC<ITransactionsArr> = ({data, isLoading}) => {
         <div className="relative bg-neutral-primary-soft shadow-xs rounded-base border border-default">
             <table className="w-full text-sm text-left rtl:text-right text-body">
                 <thead className="text-sm text-body bg-neutral-secondary-soft border-b rounded-base border-default">
-                <tr>
-                    <th scope="col" className="px-6 py-3 font-medium">
-                        id
-                    </th>
-                    <th onClick={() => sortTable("date")} scope="col"
-                        className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
-                        Date
-                        {sortDirection !== "" ?
-                            <span> {sortDirection === "asc" ? "⯅" : "⯆"}</span> : <></>
-                        }
-                    </th>
-                    <th onClick={() => sortTable("amount")} scope="col"
-                        className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
-                        Amount
-                        {sortDirection !== "" ?
-                            <span> {sortDirection === "asc" ? "⯅" : "⯆"}</span> : <></>
-                        }
-                    </th>
-                    <th scope="col" className="px-6 py-3 font-medium">
-                        <Dropdown arrayOfStatusNames={statuses} setStatus={setChooseStatus}/>
-                    </th>
-                </tr>
+                    <tr>
+                        <th scope="col" className="px-6 py-3 font-medium">
+                            id
+                        </th>
+                        <th onClick={() => sortTable("date")} scope="col"
+                            className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
+                            Date
+                            {sortDirection !== "" ?
+                                <span> {sortDirection === "asc" ? "⯅" : "⯆"}</span> : <></>
+                            }
+                        </th>
+                        <th onClick={() => sortTable("amount")} scope="col"
+                            className="px-6 py-3 font-medium hover:cursor-pointer hover:bg-gray-100">
+                            Amount
+                            {sortDirection !== "" ?
+                                <span> {sortDirection === "asc" ? "⯅" : "⯆"}</span> : <></>
+                            }
+                        </th>
+                        <th scope="col" className="px-6 py-3 font-medium">
+                            Customer
+                        </th>
+                        <th scope="col" className="px-6 py-3 font-medium">
+                            <Dropdown arrayOfStatusNames={statuses} setStatus={setChooseStatus}/>
+                        </th>
+                    </tr>
                 </thead>
                 {!isLoading ?
-                <tbody>
-                {sortedData && sortedData.length > 0 ? sortedData.map(transItem =>
-                    <tr key={transItem.id} className="bg-neutral-primary border-b border-default">
-                        <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
-                            {transItem.id}
-                        </th>
-                        <td className="px-6 py-4">
-                            {transItem.date}
-                        </td>
-                        <td className="px-6 py-4">
-                            {transItem.amount}
-                        </td>
-                        <td className="px-6 py-4">
-                                <span
-                                    className={statusColor(transItem.status)}>
-                                    {transItem.status}
-                                </span>
-                        </td>
-                    </tr>
-                ) : <></>}
-                </tbody>
+                    <tbody>
+                        {sortedData && sortedData.length > 0 ? sortedData.map(transItem =>
+                            <tr key={transItem.id} className="bg-neutral-primary border-b border-default">
+                                <th scope="row" className="px-6 py-4 font-medium text-heading whitespace-nowrap">
+                                    {transItem.id}
+                                </th>
+                                <td className="px-6 py-4">
+                                    {transItem.date}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {transItem.amount}
+                                </td>
+                                <td className="px-6 py-4">
+                                    {transItem.customer}
+                                </td>
+                                <td className="px-6 py-4">
+                                    <span
+                                        className={statusColor(transItem.status)}>
+                                        {transItem.status}
+                                    </span>
+                                </td>
+                            </tr>
+                        ) : <></>}
+                    </tbody>
                     :
-                <TableSkeleton />
+                    <tbody>
+                        <TableSkeleton />
+                    </tbody>
                 }
             </table>
         </div>
