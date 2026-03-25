@@ -85,9 +85,9 @@ function App() {
           }
           {!isErrorTrans ?
               <div className="mt-2 flex flex-col">
-                  <div className='justify-end'>
+                  <div className='flex justify-end'>
                       <button
-                          className="bg-gray-50 hover:bg-black-100 font-bold py-2 px-4 rounded border border-black"
+                          className="bg-gray-100 hover:bg-black-100 font-bold py-2 px-4 mb-2 rounded border border-black"
                           onClick={() => exportToCsv(transactions!, dateRange)}
                       >
                           Download CSV
