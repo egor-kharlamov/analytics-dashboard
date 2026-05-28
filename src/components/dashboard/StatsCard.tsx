@@ -25,25 +25,27 @@ export const StatsCard: FC<IStatsCard> = ({title, value, change, icon, isLoading
     return (
         !isLoading ?
             <div
-                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200">
-                <div className="flex items-center justify-evenly mb-4">
-                    <div className="w-5">
-                        {icon}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-2 lg:p-5 hover:shadow-md transition-shadow duration-200 min-w-0 max-w-full overflow-hidden">
+                <div className="flex items-center justify-between gap-1 mb-1 lg:mb-3">
+                    <div className="flex items-center gap-1 min-w-0">
+                        <div className="w-4 lg:w-5 flex-shrink-0 text-gray-500">
+                            {icon}
+                        </div>
+                        <p className="text-xs lg:text-sm font-medium text-gray-600 truncate">
+                            {title}
+                        </p>
                     </div>
-                    <p className="text-sm font-medium text-gray-600">
-                        {title}
-                    </p>
                     <span
-                        className={`inline-flex item-center gap-1 px-2 py-1 rounded-md text-xs font-semibold ${bgcolor} ${changeColor}`}>
+                        className={`shrink-0 inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-md text-xs font-semibold ${bgcolor} ${changeColor}`}>
                     <span>{positiveNum ? "↑" : "↓"}</span>
-                    <span></span>
+                    <span>{change}</span>
                 </span>
                 </div>
-                <p className="text-3xl font=bold text-gray-900 mb-3">
+                <p className="text-base sm:text-xl lg:text-2xl font-bold text-gray-900 break-word">
                     {value}
                 </p>
             </div>
             :
-            <CardsSkeleton />
-    )
+            <CardsSkeleton/>
+    );
 }
