@@ -33,36 +33,39 @@ function App() {
           </div>
 
           {!isErrorStats ?
-              <div className="grid grid-cols-4 gap-8 md:grid-cols-2 lg:grid-cols-4">
-                  <StatsCard
-                      title="Revenue"
-                      value={stats ? stats.revenue.toString() : ""}
-                      change={stats ? stats.revenueChange : 0}
-                      icon={<DocumentCurrencyDollarIcon/>}
-                      isLoading={isLoadStats}
-                  />
-                  <StatsCard
-                      title="Users"
-                      value={stats ? stats.users.toString() : ""}
-                      change={stats ? stats.usersChange : 0}
-                      icon={<UsersIcon/>}
-                      isLoading={isLoadStats}
-                  />
-                  <StatsCard
-                      title="Orders"
-                      value={stats ? stats.orders.toString() : ""}
-                      change={stats ? stats.ordersChange : 0}
-                      icon={<QueueListIcon/>}
-                      isLoading={isLoadStats}
-                  />
-                  <StatsCard
-                      title="Rate"
-                      value={stats ? stats.conversion.toString() : ""}
-                      change={stats ? stats.conversionChange : 0}
-                      icon={<PercentBadgeIcon/>}
-                      isLoading={isLoadStats}
-                  />
-              </div> :
+              <div className="w-full overflow-x-hidden">
+                  <div className="grid grid-cols-2 gap-2 lg:gap-8 lg:grid-cols-4 w-full">
+                      <StatsCard
+                          title="Revenue"
+                          value={stats ? stats.revenue.toString() : ""}
+                          change={stats ? stats.revenueChange : 0}
+                          icon={<DocumentCurrencyDollarIcon/>}
+                          isLoading={isLoadStats}
+                      />
+                      <StatsCard
+                          title="Users"
+                          value={stats ? stats.users.toString() : ""}
+                          change={stats ? stats.usersChange : 0}
+                          icon={<UsersIcon/>}
+                          isLoading={isLoadStats}
+                      />
+                      <StatsCard
+                          title="Orders"
+                          value={stats ? stats.orders.toString() : ""}
+                          change={stats ? stats.ordersChange : 0}
+                          icon={<QueueListIcon/>}
+                          isLoading={isLoadStats}
+                      />
+                      <StatsCard
+                          title="Rate"
+                          value={stats ? stats.conversion.toString() : ""}
+                          change={stats ? stats.conversionChange : 0}
+                          icon={<PercentBadgeIcon/>}
+                          isLoading={isLoadStats}
+                      />
+                  </div>
+              </div>
+              :
               <div className="px-4 py-3 leading-normal text-red-700 bg-red-100 rounded-lg mt-2" role="alert">
                   <p>Error loading "Stats" data, please reload page</p>
               </div>
