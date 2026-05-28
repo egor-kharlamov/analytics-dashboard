@@ -37,7 +37,7 @@ function App() {
                   <div className="grid grid-cols-2 gap-2 lg:gap-8 lg:grid-cols-4 w-full">
                       <StatsCard
                           title="Revenue"
-                          value={stats ? stats.revenue.toString() : ""}
+                          value={stats ? stats.revenue.toLocaleString() : ""}
                           change={stats ? stats.revenueChange : 0}
                           icon={<DocumentCurrencyDollarIcon/>}
                           isLoading={isLoadStats}
@@ -58,7 +58,7 @@ function App() {
                       />
                       <StatsCard
                           title="Rate"
-                          value={stats ? stats.conversion.toString() : ""}
+                          value={stats ? `${stats.conversion.toString()}%` : ""}
                           change={stats ? stats.conversionChange : 0}
                           icon={<PercentBadgeIcon/>}
                           isLoading={isLoadStats}
@@ -90,7 +90,7 @@ function App() {
               <div className="mt-2 flex flex-col">
                   <div className='flex justify-end'>
                       <button
-                          className="bg-gray-100 hover:bg-black-100 font-bold py-2 px-4 mb-2 rounded border border-black"
+                          className="bg-gray-100 hover:bg-black-100 font-bold py-2 px-4 mb-2 rounded"
                           onClick={() => exportToCsv(transactions!, dateRange)}
                       >
                           Download CSV
