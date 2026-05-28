@@ -18,3 +18,6 @@ Real-time analytics dashboard for tracking sales, users, and key metrics.
 ```bash
 npm install
 npm run dev
+
+## Live Demo
+https://analytics-dashboard-eta-mocha.vercel.app
