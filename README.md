@@ -17,4 +17,4 @@ Real-time analytics dashboard for tracking sales, users, and key metrics.
 ## 🛠 Installation
 ```bash
 npm install
-npm start
+npm run dev
